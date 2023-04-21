@@ -6,6 +6,7 @@ import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Widget/ChatAppBar.dart';
 import 'package:flutter_live_chat/Widget/ReceivedMessage.dart';
 import 'package:flutter_live_chat/Widget/SentMessage.dart';
+import 'package:flutter_live_chat/Widget/TextFieldChat.dart';
 
 class ChatPage extends StatefulWidget {
   UserChat? user;
@@ -96,6 +97,7 @@ class ChatState extends State<ChatPage> {
                 children: <Widget>[
                   // List of messages
                   buildListMessage(),
+                  TextFieldChat()
                 ],
               ),
             ],
