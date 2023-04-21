@@ -20,6 +20,13 @@ class TextFieldChatState extends State<TextFieldChat> {
 
   @override
   void initState() {
+    focusNode.addListener(onFocusChange);
+  }
+
+  onFocusChange() {
+    if(focusNode.hasFocus) {
+      chatState.currentState?.showSticker(false);
+    }
   }
 
   @override
@@ -29,7 +36,7 @@ class TextFieldChatState extends State<TextFieldChat> {
         children: <Widget>[
           // Button send image
           TextFieldButton(getImage, Icons.image),
-          TextFieldButton(() {}, Icons.face),
+          TextFieldButton(getSticker, Icons.face),
 
           // Edit text
           Flexible(
@@ -91,6 +98,11 @@ class TextFieldChatState extends State<TextFieldChat> {
 
     if (imageFile != null) {
     }
+  }
+
+  getSticker() {
+    focusNode.unfocus();
+    chatState.currentState?.showSticker(!chatState.currentState!.isShowSticker);
   }
 
 }
