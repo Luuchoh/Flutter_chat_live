@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_live_chat/Card/UserCard.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Values/ColorsApp.dart';
+import 'package:flutter_live_chat/Widget/Card/UserCard.dart';
 import 'package:flutter_live_chat/main.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,15 +22,18 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    addUsers();
+    if(mounted) addUsers();
   }
 
-  addUsers() async{
+  void addUsers() async{
     userChats = [
     await UserChat.getUser("1"),
     await UserChat.getUser("2"),
     await UserChat.getUser("3")
-  ];
+    ];
+    setState(() {
+
+    });
   }
 
   Future<Null> handleSignOut() async {
@@ -89,6 +92,7 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   listUsers(){
+    print(userChats);
     return ListView.builder(
       shrinkWrap: false,
       itemCount: userChats.length,

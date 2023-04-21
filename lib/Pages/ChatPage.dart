@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_live_chat/Common/Keys.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
+import 'package:flutter_live_chat/Widget/ChatAppBar.dart';
 
 class ChatPage extends StatefulWidget {
   UserChat? user;
@@ -85,7 +86,7 @@ class ChatState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        //appBar: ChatAppBar(peer),
+        appBar: ChatAppBar(peer!),
         body: WillPopScope(
           child: Stack(
             children: <Widget>[
