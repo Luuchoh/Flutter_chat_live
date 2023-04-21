@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_live_chat">
+    package="com.example.flutterLiveChat">
    <application
         android:label="flutter_live_chat"
         android:name="${applicationName}"
