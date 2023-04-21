@@ -92,7 +92,6 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   listUsers(){
-    print(userChats);
     return ListView.builder(
       shrinkWrap: false,
       itemCount: userChats.length,

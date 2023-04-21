@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Pages/HomePage.dart';
@@ -15,12 +13,8 @@ class LoginPageState extends State<LoginPage> {
   bool isLoading = false;
 
   signIn() async{
-    setState(() {
-      isLoading=true;
-    });
     UserChat userChat;
     userChat = await UserChat.getUser("1");
-    print(userChat.toMap().toString());
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -28,11 +22,6 @@ class LoginPageState extends State<LoginPage> {
             HomePage(userChat)
       )
     );
-
-    setState(() {
-      isLoading=false;
-    });
-
   }
 
   goHomePage(UserChat userChat){

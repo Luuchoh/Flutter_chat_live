@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_live_chat/Common/DateFormatApp.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
 
 
@@ -14,14 +15,14 @@ class SentMessage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Text(
-            "${message.timestamp}",
+            "${DateFormatApp.getDateFormat(message.timestamp)}",
             style: Theme.of(context).textTheme.bodyMedium?.apply(color: Colors.grey),
           ),
           Padding(
             padding: EdgeInsets.only(left: 10),
             child: Container(
               constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width* .6
+                maxWidth: MediaQuery.of(context).size.width * .6
               ),
               padding: EdgeInsets.all(15.0),
               decoration: BoxDecoration(

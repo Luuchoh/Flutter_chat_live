@@ -52,7 +52,7 @@ class MessageChat {
       ),
       MessageChat(
         id: "1",
-        content: "Holii",
+        content: "Holiiuuuuu",
         idFrom: "1",
         idTo: "2",
         timestamp: "1612520639893",
@@ -70,7 +70,7 @@ class MessageChat {
       ),
       MessageChat(
         id: "2",
-        content: "Hi",
+        content: "Hiiuuuu",
         idFrom: "2",
         idTo: "1",
         timestamp: "1612520639893",

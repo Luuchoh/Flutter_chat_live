@@ -47,7 +47,7 @@ class ChatAppBarState extends State<ChatAppBar>{
                 ),
                 Text(
                   peer.isOnline! ? "Online" : peer.lastTime!,
-                  style: Theme.of(context).textTheme.titleSmall?.apply(
+                  style: Theme.of(context).textTheme.titleMedium?.apply(
                     color: Colors.green,
                   ),
                 )

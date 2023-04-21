@@ -4,21 +4,22 @@ import 'package:flutter_live_chat/Common/Keys.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Widget/ChatAppBar.dart';
+import 'package:flutter_live_chat/Widget/ReceivedMessage.dart';
 import 'package:flutter_live_chat/Widget/SentMessage.dart';
 
 class ChatPage extends StatefulWidget {
   UserChat? user;
   UserChat? peer;
 
-  ChatPage({Key? key, this.user, this.peer}) : super(key:Keys().chatState);
+  ChatPage({this.user, this.peer}) : super(key: chatState);
 
   @override
-  State createState() => ChatState(this.user, this.peer);
+  State createState() => ChatState(user!, peer!);
 }
 
 class ChatState extends State<ChatPage> {
-  UserChat? user;
-  UserChat? peer;
+  UserChat user;
+  UserChat peer;
 
   ChatState(this.user, this.peer);
 
@@ -44,9 +45,9 @@ class ChatState extends State<ChatPage> {
 
   loadGroupChatId() async {
     setState(() {
-      groupChatId = (user!.id.hashCode <= peer!.id.hashCode)
-          ? '${user?.id}-${peer?.id}'
-          : '${peer?.id}-${user?.id}';
+      groupChatId = (user.id.hashCode <= peer.id.hashCode)
+          ? '${user.id}-${peer.id}'
+          : '${peer.id}-${user.id}';
     });
   }
 
@@ -87,7 +88,7 @@ class ChatState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: ChatAppBar(peer!),
+        appBar: ChatAppBar(peer),
         body: WillPopScope(
           child: Stack(
             children: <Widget>[
@@ -103,6 +104,11 @@ class ChatState extends State<ChatPage> {
         ));
   }
 
+  buildItem(MessageChat messageChat) {
+    return (messageChat.idFrom == user.id)
+      ? SentMessage(messageChat)
+      : ReceivedMessage(messageChat);
+  }
 
   Widget buildListMessage() {
     return Flexible(
@@ -116,7 +122,7 @@ class ChatState extends State<ChatPage> {
               )
             : ListView.builder(
                 padding: EdgeInsets.all(10.0),
-                itemBuilder: (context, index) => SentMessage(messages[index]),
+                itemBuilder: (context, index) => buildItem(messages[index]),
                 itemCount: messages.length,
                 reverse: true,
                 controller: listScrollController,

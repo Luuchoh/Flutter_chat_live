@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_live_chat/Common/DateFormatApp.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Pages/ChatPage.dart';
@@ -65,7 +66,7 @@ class UserCardState extends State<UserCard>{
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Text(messageChat.timestamp!),
+            Text(DateFormatApp.getDateFormat(messageChat.timestamp!)),
             count > 0
               ? Container(
                   alignment: Alignment.center,
