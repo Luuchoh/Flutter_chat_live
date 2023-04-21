@@ -4,6 +4,7 @@ import 'package:flutter_live_chat/Common/Keys.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Widget/ChatAppBar.dart';
+import 'package:flutter_live_chat/Widget/SentMessage.dart';
 
 class ChatPage extends StatefulWidget {
   UserChat? user;
@@ -115,7 +116,7 @@ class ChatState extends State<ChatPage> {
               )
             : ListView.builder(
                 padding: EdgeInsets.all(10.0),
-                itemBuilder: (context, index) => Text(messages[index].content!),
+                itemBuilder: (context, index) => SentMessage(messages[index]),
                 itemCount: messages.length,
                 reverse: true,
                 controller: listScrollController,
