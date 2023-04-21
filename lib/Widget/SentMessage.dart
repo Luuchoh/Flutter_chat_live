@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_live_chat/Common/DateFormatApp.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
+import 'package:flutter_live_chat/Widget/ContentMessage.dart';
 
 
 class SentMessage extends StatelessWidget {
@@ -20,7 +21,8 @@ class SentMessage extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: 10),
-            child: Container(
+            child: ContentMessage(message,Colors.white,Colors.green,isSend: true,)
+            /*Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * .6
               ),
@@ -39,7 +41,7 @@ class SentMessage extends StatelessWidget {
                   color: Colors.white
                 ),
               ),
-            ),
+            ),*/
           ),
         ],
       ),

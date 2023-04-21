@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_live_chat/Common/DateFormatApp.dart';
 import 'package:flutter_live_chat/Common/Keys.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
+import 'package:flutter_live_chat/Widget/ContentMessage.dart';
 
 class ReceivedMessage extends StatelessWidget {
   MessageChat message;
@@ -30,7 +31,8 @@ class ReceivedMessage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(right: 10),
-                child: Container(
+                child: ContentMessage(message, Colors.black87, Colors.grey.withOpacity(.5))
+                /*Container(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * .6
                   ),
@@ -49,7 +51,7 @@ class ReceivedMessage extends StatelessWidget {
                       color: Colors.black87
                       ),
                   ),
-                ),
+                ),*/
               ),
             ],
           ),
