@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_live_chat/Common/Keys.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class TextFieldChat extends StatefulWidget {
   TextFieldChat();
@@ -75,6 +76,19 @@ class TextFieldChatState extends State<TextFieldChat> {
     );
   }
 
+  Future uploadFile() async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    var reference = FirebaseStorage.instance.ref().child(fileName);
+    var uploadTask = reference.putFile(imageFile);
+    var storageTaskSnapshot = await uploadTask;
+    storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
+      imageUrl = downloadUrl;
+      setState(() {
+        chatState.currentState?.onSendMessage(1,content: imageUrl);
+      });
+    });
+  }
+
   TextFieldButton(var onPressed, IconData icon) {
     return ElevatedButton(
 
@@ -96,6 +110,7 @@ class TextFieldChatState extends State<TextFieldChat> {
     if (pickedFile != null) imageFile = File(pickedFile.path);
 
     if (imageFile != null) {
+      uploadFile();
     }
   }
 
