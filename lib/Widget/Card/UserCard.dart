@@ -84,7 +84,7 @@ class UserCardState extends State<UserCard>{
         },
         leading:CircleAvatar(radius: 30,
           backgroundImage:
-          NetworkImage(peer.photoUrl!),
+          NetworkImage(peer.photoUrl ?? ""),
         ),
         title: Text(
           "${peer.userName}",

@@ -4,7 +4,7 @@ import 'package:flutter_live_chat/Common/Keys.dart';
 
 
 class StickerGridView extends StatelessWidget{
-  List<String>images=['PD_1','PD_2','PD_3','PD_4','PD_5','PD_6','PD_7','PD_8','PD_9'];
+  List<String>images=['DP_1','DP_2','DP_3','DP_4','DP_5','DP_6','DP_7','DP_8','DP_9'];
 
   @override
   Widget build(BuildContext context) {
