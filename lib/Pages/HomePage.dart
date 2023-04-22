@@ -22,19 +22,8 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    if(mounted) addUsers();
   }
 
-  void addUsers() async{
-    userChats = [
-    await UserChat.getUser("1"),
-    await UserChat.getUser("2"),
-    await UserChat.getUser("3")
-    ];
-    setState(() {
-
-    });
-  }
 
   Future<Null> handleSignOut() async {
     Navigator.of(context).pushAndRemoveUntil(

@@ -1,4 +1,7 @@
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_live_chat/DataBase/DataBase.dart';
+
 class UserChat {
   String? id;
   String? bio;
@@ -35,13 +38,11 @@ class UserChat {
   }
 
   static getUser(String id) async {
-    return UserChat(
-      id: id,
-      bio: "Soy desarrollador fullstack",
-      userName: "Cody$id",
-      lastTime: '1612520639893',
-      isOnline: true,
-      photoUrl: "https://i.ibb.co/cxj2ysz/unnamed-1.jpg",
-    );
+    DatabaseEvent event = await DataBase.tableUser.equalTo(id, key: 'id').once();
+    return (event.snapshot.value != null) ? UserChat.toUser(event.snapshot.value): null;
+  }
+
+  save() {
+    DataBase.tableUser.child(id!).set(toMap());
   }
 }
