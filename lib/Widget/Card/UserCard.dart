@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_live_chat/Common/DateFormatApp.dart';
+import 'package:flutter_live_chat/DataBase/DataBase.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Pages/ChatPage.dart';
@@ -19,8 +23,45 @@ class UserCardState extends State<UserCard>{
   UserChat user;
   UserCardState(this.user, this.peer);
 
-  int count = 5;
-  MessageChat messageChat = MessageChat(content: "Hola Mun", timestamp: "1612520639893", seen: true, type: 0, id: "1");
+  int count = 0;
+  MessageChat messageChat = MessageChat();
+
+  StreamSubscription<DatabaseEvent>? onAddedLastMessage;
+  StreamSubscription<DatabaseEvent>? onAddedSeen;
+  @override
+  void initState() {
+    onAddedLastMessage = DataBase.tableMessage
+        .child(getGroupId(user.id!,peer.id!))
+        .limitToLast(1).onChildAdded.listen(onEntryAdded);
+
+
+    onAddedSeen = DataBase.tableMessage
+        .child(getGroupId(user.id!,peer.id!))
+        .orderByChild("seen")
+        .equalTo(false)
+        .onChildAdded.listen(onEntrySeen);
+  }
+
+  getGroupId(String userId,String peerId){
+    return  (userId.hashCode <= peerId.hashCode)? '${userId}-${peerId}':
+    '${peerId}-${userId}';
+  }
+
+  onEntryAdded(DatabaseEvent event)async {
+    MessageChat message = MessageChat.toMessage(event.snapshot);
+    if(mounted)
+      setState(() {
+        messageChat = message;
+      });
+  }
+
+  onEntrySeen(DatabaseEvent event)async {
+    MessageChat message=MessageChat.toMessage(event.snapshot);
+    if(message.idFrom != user.id)
+      setState(() {
+        count = count + 1;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {

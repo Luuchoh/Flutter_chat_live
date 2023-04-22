@@ -11,13 +11,13 @@ class MessageChat {
   bool? seen;
 
   MessageChat(
-      {this.id,
-        this.content ,
-        this.idFrom ,
-        this.idTo ,
-        this.timestamp,
-        this.type ,
-        this.seen});
+      {this.id = '',
+        this.content = '',
+        this.idFrom = '',
+        this.idTo = '',
+        this.timestamp = '1612520639893',
+        this.type = 0,
+        this.seen = false });
 
   Map<String, dynamic> toMap() {
     return {
@@ -46,7 +46,7 @@ class MessageChat {
   }
 
   update(String groupChatId) async{
-    await DataBase.tableMessage.child(groupChatId).child(id!).update({'seen':seen});
+    await DataBase.tableMessage.child(groupChatId).child(id!).update({'seen': seen});
   }
 
   // static getMessages() {
