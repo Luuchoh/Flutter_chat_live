@@ -45,44 +45,48 @@ class MessageChat {
     DataBase.tableMessage.child(groupChatId).child(timestamp!).set(toMap());
   }
 
-  static getMessages() {
-    return [
-      MessageChat(
-        id: "1",
-        content: "Holiii",
-        idFrom: "1",
-        idTo: "2",
-        timestamp: "1612520639893",
-        type: 0,
-        seen: false,
-      ),
-      MessageChat(
-        id: "1",
-        content: "Holiiuuuuu",
-        idFrom: "1",
-        idTo: "2",
-        timestamp: "1612520639893",
-        type: 0,
-        seen: false,
-      ),
-      MessageChat(
-        id: "2",
-        content: "Hi",
-        idFrom: "2",
-        idTo: "1",
-        timestamp: "1612520639893",
-        type: 0,
-        seen: false,
-      ),
-      MessageChat(
-        id: "2",
-        content: "Hiiuuuu",
-        idFrom: "2",
-        idTo: "1",
-        timestamp: "1612520639893",
-        type: 0,
-        seen: false,
-      ),
-    ];
+  update(String groupChatId) async{
+    await DataBase.tableMessage.child(groupChatId).child(id!).update({'seen':seen});
   }
+
+  // static getMessages() {
+  //   return [
+  //     MessageChat(
+  //       id: "1",
+  //       content: "Holiii",
+  //       idFrom: "1",
+  //       idTo: "2",
+  //       timestamp: "1612520639893",
+  //       type: 0,
+  //       seen: false,
+  //     ),
+  //     MessageChat(
+  //       id: "1",
+  //       content: "Holiiuuuuu",
+  //       idFrom: "1",
+  //       idTo: "2",
+  //       timestamp: "1612520639893",
+  //       type: 0,
+  //       seen: false,
+  //     ),
+  //     MessageChat(
+  //       id: "2",
+  //       content: "Hi",
+  //       idFrom: "2",
+  //       idTo: "1",
+  //       timestamp: "1612520639893",
+  //       type: 0,
+  //       seen: false,
+  //     ),
+  //     MessageChat(
+  //       id: "2",
+  //       content: "Hiiuuuu",
+  //       idFrom: "2",
+  //       idTo: "1",
+  //       timestamp: "1612520639893",
+  //       type: 0,
+  //       seen: false,
+  //     ),
+  //   ];
+  // }
 }

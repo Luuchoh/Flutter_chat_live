@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_live_chat/Common/Keys.dart';
+import 'package:flutter_live_chat/DataBase/DataBase.dart';
 import 'package:flutter_live_chat/Modelo/MessageChat.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Widget/ChatAppBar.dart';
@@ -36,13 +38,56 @@ class ChatState extends State<ChatPage> {
   final TextEditingController textEditingController = TextEditingController();
   List<MessageChat> messages = [];
 
+  StreamSubscription<DatabaseEvent>? onAddedSubs;
+  StreamSubscription<DatabaseEvent>? onChangeSubs;
+
   @override
   void initState() {
     super.initState();
     loadGroupChatId();
     listScrollController.addListener(_scrollListener);
-    messages = MessageChat.getMessages();
+    onAddedSubs = getQuery().onChildAdded.listen(onEntryAdded);
+    onChangeSubs = getQuery().onChildChanged.listen(onEntryChanged);
 
+  }
+
+  Query getQuery() {
+    return DataBase.tableMessage
+        .child(groupChatId)
+        .orderByChild('timestamp')
+        .limitToLast(_limit);
+  }
+
+  onEntryAdded(DatabaseEvent event) async {
+    MessageChat messageChat = await updateSeen(event.snapshot);
+    setState(() {
+      messages.add(messageChat);
+      messages..sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+    });
+  }
+
+  onEntryChanged(DatabaseEvent event) async {
+    if (mounted) {
+      MessageChat oldEntry = messages.singleWhere((entry) {
+        return entry.id == event.snapshot.key;
+      });
+
+      MessageChat messageChat = await updateSeen(event.snapshot);
+      setState(() {
+        messages[messages.indexOf(oldEntry)] = messageChat;
+        messages..sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+      });
+    }
+  }
+
+  updateSeen(DataSnapshot snapshot) async {
+    MessageChat messageChat = MessageChat.toMessage(snapshot);
+    if (messageChat.idFrom != user.id) {
+      messageChat.seen = true;
+      await messageChat.update(groupChatId);
+    }
+
+    return messageChat;
   }
 
   loadGroupChatId() async {

@@ -31,7 +31,7 @@ class ReceivedMessage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(right: 10),
-                child: ContentMessage(message, Colors.black87, Colors.grey.withOpacity(.5))
+                child: ContentMessage(message, Colors.black87, Colors.grey.withOpacity(.3))
                 /*Container(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * .6
