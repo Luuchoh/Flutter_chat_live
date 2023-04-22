@@ -1,4 +1,6 @@
 
+import 'package:flutter_live_chat/DataBase/DataBase.dart';
+
 class MessageChat {
   String? id;
   String? content;
@@ -37,6 +39,10 @@ class MessageChat {
     timestamp = snap.value['timestamp'];
     type = snap.value['type'];
     seen = snap.value['seen'];
+  }
+
+  save(String groupChatId) {
+    DataBase.tableMessage.child(groupChatId).child(timestamp!).set(toMap());
   }
 
   static getMessages() {

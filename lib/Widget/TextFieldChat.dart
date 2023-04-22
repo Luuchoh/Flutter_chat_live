@@ -43,7 +43,7 @@ class TextFieldChatState extends State<TextFieldChat> {
             child: Container(
               child: TextField(
                 onSubmitted: (value) {
-                  // chatState.currentState!.onSendMessage(0);
+                  chatState.currentState?.onSendMessage(0);
                 },
                 style: TextStyle(fontSize: 15.0),
                 controller: chatState.currentState?.textEditingController,
@@ -58,8 +58,7 @@ class TextFieldChatState extends State<TextFieldChat> {
 
           // Button send message
           TextFieldButton(
-            (){},
-                // () => { chatState.currentState.onSendMessage(0)},
+            () => { chatState.currentState?.onSendMessage(0) },
             Icons.send,
           ),
         ],

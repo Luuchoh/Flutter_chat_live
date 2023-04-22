@@ -13,7 +13,7 @@ class StickerGridView extends StatelessWidget{
         crossAxisCount: 3,
         children: images.map((value) {
           return ElevatedButton(
-            onPressed: () => { },
+            onPressed: () => { chatState.currentState?.onSendMessage(2, content: value) },
             child: Image.asset(
               'images/$value.png',
               fit: BoxFit.cover,

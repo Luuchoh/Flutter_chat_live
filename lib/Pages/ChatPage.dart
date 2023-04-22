@@ -142,4 +142,23 @@ class ChatState extends State<ChatPage> {
     );
   }
 
+  void onSendMessage(int type, {String? content}) {
+    content = (content == null) ? textEditingController.text : content;
+    // type: 0 = text, 1 = image, 2 = sticker
+    if (content.isNotEmpty) {
+      textEditingController.clear();
+      MessageChat(
+          seen: false,
+          idFrom: user.id,
+          idTo: peer.id,
+          timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
+          content: content,
+          type: type)
+          .save(groupChatId);
+
+      listScrollController.animateTo(0.0,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    }
+  }
+
 }
