@@ -1,5 +1,10 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_live_chat/Common/DateFormatApp.dart';
+import 'package:flutter_live_chat/DataBase/DataBase.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 
 class ChatAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -15,10 +20,20 @@ class ChatAppBar extends StatefulWidget implements PreferredSizeWidget {
 class ChatAppBarState extends State<ChatAppBar>{
   UserChat peer;
   ChatAppBarState(this.peer);
+  StreamSubscription<DatabaseEvent>? onChangeSubs;
 
   @override
   void initState() {
+    onChangeSubs = DataBase.tableUser.orderByKey().equalTo(peer.id).onChildChanged.listen(onEntryChange);
     super.initState();
+  }
+
+  onEntryChange(DatabaseEvent event)async {
+    UserChat newUser=UserChat.toUser(event.snapshot);
+    if(mounted)
+      setState(() {
+        peer = newUser;
+      });
   }
 
   @override
@@ -46,7 +61,7 @@ class ChatAppBarState extends State<ChatAppBar>{
                   overflow: TextOverflow.clip,
                 ),
                 Text(
-                  peer.isOnline! ? "Online" : peer.lastTime!,
+                  peer.isOnline! ? "Online" : DateFormatApp.getDateFormat(peer.lastTime!),
                   style: Theme.of(context).textTheme.titleMedium?.apply(
                     color: Colors.green,
                   ),

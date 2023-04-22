@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_live_chat/DataBase/DataBase.dart';
 import 'package:flutter_live_chat/Modelo/UserChat.dart';
 import 'package:flutter_live_chat/Values/ColorsApp.dart';
 import 'package:flutter_live_chat/Widget/Card/UserCard.dart';
@@ -18,10 +20,41 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
   HomePageState(this.userChat);
 
   List<UserChat> userChats = [];
+  StreamSubscription<DatabaseEvent>? onAddedSubs;
+  StreamSubscription<DatabaseEvent>? onChangeSubs;
 
   @override
   void initState() {
+    onAddedSubs = DataBase.tableUser.onChildAdded.listen(onEntryAdded);
+    onChangeSubs = DataBase.tableUser.onChildAdded.listen(onEntryChanged);
+    updateOnline(true);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  onEntryAdded(DatabaseEvent event)async {
+    UserChat newUser=UserChat.toUser(event.snapshot);
+    if(mounted)
+      setState(() {
+        userChats.add(newUser);
+      });
+  }
+
+  onEntryChanged(DatabaseEvent event) async{
+    UserChat oldEntry = userChats.singleWhere((entry) {
+      return entry.id == event.snapshot.key;
+    });
+    UserChat newUser = UserChat.toUser(event.snapshot);
+    if(mounted)
+      setState(() {
+        userChats[userChats.indexOf(oldEntry)] = newUser;
+      });
+  }
+
+  void dispose() {
+    onAddedSubs?.cancel();
+    onChangeSubs?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
 
@@ -86,9 +119,36 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
       itemCount: userChats.length,
       padding: EdgeInsets.all(10.0),
       itemBuilder: (BuildContext context, int index) {
-        return UserCard(userChat, userChats[index]);
+        return buildItem(context, userChats[index]);
       },
     );
   }
 
+  buildItem(BuildContext context, UserChat peer) {
+    return (peer == null || userChat.id == peer.id)
+        ? SizedBox.shrink()
+        : UserCard(userChat, peer);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch(state) {
+      case AppLifecycleState.resumed:
+        updateOnline(true);
+        break;
+      case AppLifecycleState.paused:
+        updateOnline(false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  updateOnline(bool isOnline) {
+    userChat.isOnline = isOnline;
+    userChat.lastTime = DateTime.now().microsecondsSinceEpoch.toString();
+
+    userChat.updateIsOnline();
+  }
 }

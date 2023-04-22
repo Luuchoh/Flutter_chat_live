@@ -45,4 +45,8 @@ class UserChat {
   save() {
     DataBase.tableUser.child(id!).set(toMap());
   }
+
+  updateIsOnline() {
+    DataBase.tableUser.child(id!).update({"isOnline": isOnline, "lastTime": lastTime});
+  }
 }
