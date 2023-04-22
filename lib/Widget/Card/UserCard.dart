@@ -56,7 +56,7 @@ class UserCardState extends State<UserCard>{
   }
 
   onEntrySeen(DatabaseEvent event)async {
-    MessageChat message=MessageChat.toMessage(event.snapshot);
+    MessageChat message = MessageChat.toMessage(event.snapshot);
     if(message.idFrom != user.id)
       setState(() {
         count = count + 1;
